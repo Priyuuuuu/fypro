@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Cleaning Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 60%;
+            margin: auto;
+        }
+        h2 {
+            color: #333;
+        }
+        .report {
+            text-align: left;
+            background: #e6f7ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #ffe5e5;
+            color: #d9534f;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        a {
+            display: inline-block;
+            text-decoration: none;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        a:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Data Cleaning Completed </h2>
+
+        <div class="report">
+            <h3> Cleaning Report:</h3>
+            <p>{{ report|linebreaks }}</p>
+        </div>
+
+        {% if errors %}
+            <h3>⚠️ Errors Found:</h3>
+            <ul>
+                {% for col, values in errors.items %}
+                    <li><strong>{{ col }}</strong>: {{ values|slice:":5" }}{% if values|length > 5 %}...{% endif %}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p> No errors detected!</p>
+        {% endif %}
+
+        <p><a href="/media/{{ cleaned_file }}" download>Download Cleaned File</a></p>
+    </div>
+</body>
+</html>

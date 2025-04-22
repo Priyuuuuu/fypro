@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Cleaning</title>
+    <style>
+        /* Add your styles here */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Data Cleaning</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="dataset" class="file-input" required>
+            <button type="submit" class="submit-btn">Upload and Clean</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        {% if results %}
+            <div class="results">
+                <h3>Cleaning Report</h3>
+                <p><strong>Total Rows:</strong> {{ results.total_rows }}</p>
+                <p><strong>Total Columns:</strong> {{ results.total_cols }}</p>
+                <p><strong>Errors Detected:</strong> {{ results.errors|length }} columns had issues</p>
+                <p><strong>Duplicates Removed:</strong> {{ results.duplicates_removed }}</p>
+                <p><strong>Missing Values Filled:</strong> {{ results.missing_values_filled }}</p>
+                <p><strong>Standardization Applied:</strong> Dates and text formatting standardized</p>
+                <p><strong>Cleaned File:</strong> <a href="{{ MEDIA_URL }}{{ results.cleaned_file }}" download>Download Cleaned File</a></p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

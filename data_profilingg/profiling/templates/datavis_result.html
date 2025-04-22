@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %} 
+    <meta charset="UTF-8">
+    <title>Upload CSV - Data Visualization</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        h1 {
+            color: #fff;
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            width: 30%;
+            min-width: 400px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        select, input, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 90%;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            background: #007bff;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 10px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .chart-container {
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fa fa-chart-bar"></i> Data Visualization</h1>
+
+        <h2>Upload File</h2>
+        <form action="{% url 'uploading_file' %}" method="post" enctype="multipart/form-data">
+
+            {% csrf_token %}
+            <input type="file" name="file" required>
+            <button type="submit">Upload</button>
+        </form>
+
+        {% if categorical_cols or numerical_cols %}
+        <hr>
+        <h2>Select Columns & Chart Type</h2>
+        <form action="{% url 'generate_chart' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="file_path" value="{{ file_path }}">
+
+            <label>Select X-Axis:</label>
+            <select name="x_col" required>
+                {% for col in categorical_cols %}
+                    <option value="{{ col }}">{{ col }}</option>
+                {% endfor %}
+                {% for col in numerical_cols %}
+                    <option value="{{ col }}">{{ col }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Select Y-Axis:</label>
+            <select name="y_col" required>
+                {% for col in numerical_cols %}
+                    <option value="{{ col }}">{{ col }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Select Chart Type:</label>
+            <select name="chart_type" required>
+                <option value="bar">Bar Chart</option>
+                <option value="line">Line Chart</option>
+                <option value="scatter">Scatter Plot</option>
+                <option value="pie">Pie Chart</option>
+            </select>
+
+            <button type="submit">Generate Chart</button>
+        </form>
+        {% endif %}
+
+        {% if img_url %}
+        <hr>
+        <h2>Generated Chart</h2>
+        <div class="chart-container">
+            <img src="{{ img_url }}" alt="Generated Graph">
+        </div>
+        <br>
+        <a href="{{ img_url }}" download="graph.png" class="btn"><i class="fa fa-download"></i> Download Graph</a>
+        <br>
+        <a href="/" class="btn back-btn"><i class="fa fa-arrow-left"></i> Upload Another File</a>
+        {% endif %}
+    </div>
+</body>
+<script>
+    var defaultFavicon = "{% static 'favicon.ico' %}";
+    var loadingFavicon = "{% static 'loading.gif' %}";
+
+    function changeFavicon(src) {
+        let link = document.querySelector("link[rel='icon']") || document.createElement("link");
+        link.rel = "icon";
+        link.href = src;
+        document.head.appendChild(link);
+    }
+
+    window.onload = function () {
+        changeFavicon(defaultFavicon);
+    };
+
+    document.addEventListener("DOMContentLoaded", function () {
+        changeFavicon(loadingFavicon);
+    });
+</script>
+</html>
