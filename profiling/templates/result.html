@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Cleaning Report</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #c5e1a5);
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 70%;
+            margin: auto;
+            text-align: left;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .report {
+            background: #f0f8ff;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .report h3 {
+            color: #007bff;
+            margin-top: 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background: #ffe5e5;
+            color: #d9534f;
+            padding: 12px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        a {
+            display: inline-block;
+            text-decoration: none;
+            background-color: #28a745;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        a:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Data Cleaning Completed</h2>
+
+        <div class="report">
+            <h3>Cleaning Report:</h3>
+            <p>{{ report|linebreaks }}</p>
+        </div>
+
+        {% if errors %}
+            <h3>⚠️ Errors Found:</h3>
+            <ul>
+                {% for col, values in errors.items %}
+                    <li><strong>{{ col }}</strong>: {{ values|slice:":5" }}{% if values|length > 5 %}...{% endif %}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No errors detected!</p>
+        {% endif %}
+
+        <p><a href="/media/{{ cleaned_file }}" download>Download Cleaned File</a></p>
+    </div>
+</body>
+</html>

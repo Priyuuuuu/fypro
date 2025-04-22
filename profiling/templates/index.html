@@ -1,0 +1,280 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Data Processing Options</title>
+  <style>
+    /* Root and dark mode variables */
+    :root {
+      --bg-color: #f4f6f9;
+      --sidebar-bg: #1e293b;
+      --main-text: #1f2937;
+      --primary-color: #081f50;
+      --card-bg: #ffffff;
+      --header-bg: #4963a0;
+      --card-shadow: rgba(19, 16, 16, 0.641);
+    }
+
+    body.dark-mode {
+      --bg-color: #0f172a;
+      --sidebar-bg: #1e293b;
+      --main-text: #f8fafc;
+      --primary-color: #8a9dbd01;
+      --card-bg: #10101268;
+      --header-bg: #bcc7e0;
+      --card-shadow: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--main-text);
+      transition: all 0.3s ease;
+    }
+
+    /* Sticky header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background-color: var(--header-bg);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .dark-toggle {
+      background-color: var(--primary-color);
+      border: none;
+      padding: 8px 12px;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background-color: var(--sidebar-bg);
+      color: white;
+      padding: 20px;
+      height: 100vh;
+      position: fixed;
+      top: 60px;
+      overflow-y: auto;
+    }
+
+    .sidebar h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 12px;
+      margin: 10px 0;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: var(--primary-color);
+    }
+
+    /* Main content */
+    .main-content {
+      margin-left: 250px;
+      padding: 100px 20px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      position: relative;
+      background-image: url("{% static 'images/dataVisG.png' %}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    .main-content::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3); /* Overlay for contrast */
+      z-index: 0;
+    }
+
+    .main-content > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .main-content h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .feature {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .feature p {
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: var(--main-text);
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px var(--card-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: popUp 0.5s ease forwards;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 12px 25px var(--card-shadow);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .card p {
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .card a {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 10px 16px;
+      text-decoration: none;
+      border-radius: 8px;
+      display: inline-block;
+    }
+
+    .card a:hover {
+      background-color: #1d4ed8;
+    }
+
+    /* Animation */
+    @keyframes popUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 100px 10px;
+      }
+
+      header {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div><strong>📊 DataCleaner Pro</strong></div>
+    <button class="dark-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+  </header>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Navigation</h2>
+    <a href="{% url 'home' %}">📊 Data Profiling</a>
+    <a href="{% url 'datavis_result' %}">📈 Data Visualization</a>
+    <a href="{% url 'data_clean' %}">🧹 Data Cleaning</a>
+    <a href="{% url 'databot_result' %}">🤖 Data Bot</a>
+    <div style="margin-top: 300px;">
+      <a href="{% url 'logout' %}">🚪 Logout</a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h2>Choose Your Data Tool</h2>
+
+    <div class="feature">
+      <p><strong>Understand your data:</strong> Generate a detailed profile including column stats, null values, and data types.</p>
+      <div class="card">
+        <h3>🧮 Data Profiling</h3>
+        <p>Analyze your data structure, completeness, and quality.</p>
+        <a href="{% url 'home' %}">View Profile</a>
+      </div>
+    </div>
+
+    <div class="feature">
+      <p><strong>Visualize your story:</strong> Discover patterns and insights with stunning interactive charts.</p>
+      <div class="card">
+        <h3>📈 Data Visualization</h3>
+        <p>Visualize your data with interactive charts and graphs.</p>
+        <a href="{% url 'datavis_result' %}">View Visualization</a>
+      </div>
+    </div>
+
+    <div class="feature">
+      <p><strong>Make data analysis-ready:</strong> Clean inconsistencies, handle missing values, and prepare for modeling.</p>
+      <div class="card">
+        <h3>🧽 Data Cleaning</h3>
+        <p>Clean and prepare your data for analysis.</p>
+        <a href="{% url 'data_clean' %}">Clean Data</a>
+      </div>
+    </div>
+
+    <div class="feature">
+      <p><strong>Automate your work:</strong> Leverage AI to handle repetitive data processing tasks intelligently.</p>
+      <div class="card">
+        <h3>👨‍💼 Data Bot</h3>
+        <p>Automate data processing tasks with our intelligent bot.</p>
+        <a href="{% url 'databot_result' %}">Use Data Bot</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+    }
+  </script>
+</body>
+</html>

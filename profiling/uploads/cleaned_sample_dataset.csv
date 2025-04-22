@@ -1,0 +1,9 @@
+Name,Age,Salary,Department,Joining Date,Is Active
+Alice,25.0,50000.0,HR,1/15/2020,True
+Bob,30.0,60000.0,IT,7/20/2018,True
+Charlie,30.0,65000.0,Finance,3/1/2019,False
+David,28.0,70000.0,IT,9/10/2021,True
+Eva,32.0,45000.0,HR,11/25/2017,False
+Frank,40.0,80000.0,Marketing,6/30/2016,True
+Grace,29.0,65000.0,Finance,1/5/2022,True
+Hank,50.0,90000.0,IT,3/15/2015,False

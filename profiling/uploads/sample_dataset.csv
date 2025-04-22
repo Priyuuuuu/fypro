@@ -1,0 +1,9 @@
+Name,Age,Salary,Department,Joining Date,Is Active
+Alice,25,50000,HR,1/15/2020,TRUE
+Bob,30,60000,IT,7/20/2018,TRUE
+Charlie,,NA,Finance,3/1/2019,FALSE
+David,28,70000,IT,9/10/2021,TRUE
+Eva,32,45000,HR,11/25/2017,FALSE
+Frank,40,80000,Marketing,6/30/2016,TRUE
+Grace,29,,Finance,1/5/2022,TRUE
+Hank,50,90000,IT,3/15/2015,FALSE
